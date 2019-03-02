@@ -12,13 +12,13 @@ struct time_type
 	int year[8];
 	int month[12];
 	int date[31];
-	int countable_date[12 * 31];
 	int hour[24];
 	int minute[60];
+	int countable_date[12 * 31];
 	int countable_time[1440];
-} time_data;
+} time_data[8];
 
-void tokenize_time(string str) 
+void tokenize_time(string str, int relv_year)
 {
 	char* end;
 	int place = 0;
@@ -32,37 +32,13 @@ void tokenize_time(string str)
 	string hour = str.substr(year_place + 1, hour_place - year_place - 1);
 	int minute_place = str.find(',', hour_place + 1);
 	string minute = str.substr(hour_place + 1, hour_place - minute_place - 1);
-	time_data.month[stoi(month) - 1]++;
-	time_data.date[stoi(date) - 1]++;
-	time_data.year[stoi(year) - 2010]++;
-	time_data.hour[stoi(hour)]++;
-	time_data.minute[stoi(minute)]++;
-	time_data.countable_date[(stoi(month) - 1) * 31 + stoi(date) - 1]++;
-	time_data.countable_time[stoi(hour) * 60 + stoi(minute)]++;
-}
-
-void print() 
-{
-	for (int i = 0; i < 8; i++)
-		cout<<"Year "<<(i + 2010)<<": "<<time_data.year[i]<<endl;
-	cout<<endl;
-	for (int i = 0; i < 12; i++)
-		cout<<"Month "<<(i + 1)<<": "<<time_data.month[i]<<endl;
-	cout<<endl;
-	for (int i = 0; i < 31; i++)
-		cout<<"Date "<<(i + 1)<<": "<<time_data.date[i]<<endl;
-	cout<<endl;
-	for (int i = 0; i < 24; i++)
-		cout<<"Hour "<<i<<": "<<time_data.hour[i]<<endl;
-	cout<<endl;
-	for (int i = 0; i < 60; i++)
-		cout<<"Minute "<<i<<": "<<time_data.minute[i]<<endl;
-	cout<<endl;
-	for (int i = 0; i < 1440; i++)
-		cout<<"Time "<<i<<": "<<time_data.countable_time[i]<<endl;
-	for (int i = 0; i < 12; i++)
-		for (int j = 0; j < 31; j++)
-			cout<<"Month: "<<(i + 1)<<", Date: "<<(j + 1)<<": "<<time_data.countable_date[i * 31 + j]<<endl;
+	time_data[relv_year].month[stoi(month) - 1]++;
+	time_data[relv_year].date[stoi(date) - 1]++;
+	time_data[relv_year].year[stoi(year) - 2010]++;
+	time_data[relv_year].hour[stoi(hour)]++;
+	time_data[relv_year].minute[stoi(minute)]++;
+	time_data[relv_year].countable_date[(stoi(month) - 1) * 31 + stoi(date) - 1]++;
+	time_data[relv_year].countable_time[stoi(hour) * 60 + stoi(minute)]++;
 }
 
 bool validate_date(int month, int date) 
@@ -92,51 +68,122 @@ bool validate_date(int month, int date)
 	return false;
 }
 
-void data() 
+void data(int year) 
 {
-	ofstream time_file("timedata.dat");
+	string yearstr = to_string(year);
+	ofstream time_file("timedata-" + yearstr + ".dat");
 	time_file<<"time count"<<endl;
 	for (int i = 0; i < 1440; i++)
-		time_file<<i<<" "<<time_data.countable_time[i]<<endl;
+		time_file<<i<<" "<<time_data[year - 2010].countable_time[i]<<endl;
 	time_file.close();
 
-	ofstream date_file("datedata.dat");
+	ofstream date_file("datedata-" + yearstr + ".dat");
 	int datecount = 1;
 	date_file<<"date count"<<endl;
 	for (int i = 0; i < 12; i++)
 		for (int j = 0; j < 31; j++)
-			if (time_data.countable_date[i * 31 + j] != 0 || validate_date(i + 1, j + 1)) 
+			if (time_data[year - 2010].countable_date[i * 31 + j] != 0 || validate_date(i + 1, j + 1)) 
 			{
-				date_file<<datecount<<" "<<time_data.countable_date[i * 31 + j]<<endl;
+				date_file<<datecount<<" "<<time_data[year - 2010].countable_date[i * 31 + j]<<endl;
 				datecount++;
 			}
+	date_file.close();
+}
+
+void format(string &s)
+{
+	char* end;
+	int dashtime = s.find('-');
+	if (dashtime != -1) {
+		int backdashtime = s.find('-', dashtime + 1);
+		int space = s.find(' ', backdashtime + 1);
+		string year = s.substr(0, dashtime);
+		string month = s.substr(dashtime + 1, backdashtime - dashtime - 1);
+		string date = s.substr(backdashtime + 1, space - backdashtime - 1);
+		string time = s.substr(space + 1, -1);
+		s = month + "/" + date + "/" + year + " " + time;
+	}
 }
 
 int main()
 {
-	string filename[5] = {"2016-Q1-Trips-History-Data.csv","2016-Q2-Trips-History-Data.csv","2016-Q3-Trips-History-Data-1.csv","2016-Q3-Trips-History-Data-2.csv","2016-Q4-Trips-History-Data.csv"};
-	for (int i = 0; i < 5; ++i)
+	string filename[8][5] = 
 	{
-		ifstream fin(filename[i]);
-		string line;
-		int count = 0;
-		while (getline(fin, line))
-		{   
-			int start = line.find(',');
-			if (count == 0) {
-				count++;
-				continue;
-			}
-			start++;
-			int stop = start;
-			while (line[stop] != ',')
-				stop++;
-			string split = line.substr(start, stop - start);
-			tokenize_time(split);
-			count++;
+		{
+			"2010-Q4-cabi-trip-history-data.csv"
+		},
+		{ 
+			"2011-Q1-cabi-trip-history-data.csv", 
+		  	"2011-Q2-cabi-trip-history-data.csv", 
+		  	"2011-Q3-cabi-trip-history-data.csv",  
+		  	"2011-Q4-cabi-trip-history-data.csv"
+		},
+		{ 	
+			"2012-Q1-cabi-trip-history-data.csv", 
+			"2012-Q2-cabi-trip-history-data.csv", 
+		  	"2012-Q3-cabi-trip-history-data.csv",  
+		  	"2012-Q4-cabi-trip-history-data.csv"
+		},
+		{ 
+			"2013-Q1-cabi-trip-history-data.csv", 
+		  	"2013-Q2-cabi-trip-history-data.csv", 
+		  	"2013-Q3-cabi-trip-history-data.csv",  
+		  	"2013-Q4-cabi-trip-history-data.csv"
+		},
+		{ 
+			"2014-Q1-cabi-trip-history-data.csv", 
+		  	"2014-Q2-cabi-trip-history-data.csv", 
+		  	"2014-Q3-cabi-trip-history-data.csv",  
+		  	"2014-Q4-cabi-trip-history-data.csv"
+		},
+		{ 	
+			"2015-Q1-Trips-History-Data.csv", 
+		  	"2015-Q2-Trips-History-Data.csv", 
+		  	"2015-Q3-Trips-History-Data.csv",  
+		  	"2015-Q4-Trips-History-Data.csv"
+		},
+		{ 
+			"2016-Q1-Trips-History-Data.csv", 
+		  	"2016-Q2-Trips-History-Data.csv", 
+		  	"2016-Q3-Trips-History-Data-1.csv", 
+		  	"2016-Q3-Trips-History-Data-2.csv", 
+		  	"2016-Q4-Trips-History-Data.csv"
+		},
+		{ 
+			"2017-Q1-Trips-History-Data.csv",
 		}
+	};
+	for (int i = 0; i <= 7; ++i)
+	{
+		for (int j = 0; j < 5; ++j)
+		{
+			if (filename[i][j] != "") 
+			{
+				ifstream fin(filename[i][j]);
+				string line;
+				int count = 0;
+				while (getline(fin, line))
+				{   
+					int start = line.find(',');
+					if (count == 0) {
+						count++;
+						continue;
+					}
+					start++;
+					int stop = start;
+					while (line[stop] != ',')
+						stop++;
+					string split = line.substr(start, stop - start);
+					// format split string
+					format(split);
+					cout<<split<<endl;
+					tokenize_time(split, i);
+					count++;
+				}				
+			}
+		}
+		data(i + 2010);	
 	}
-	print();
-	data();
+
 	return 0;
 }
