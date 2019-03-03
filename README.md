@@ -29,7 +29,18 @@ Data visualization module to show the data more friendly. We make it automatical
 
 It will generate PNG files.
 
+## MapParser
+Creating a mapping between dock no. and geographical coordinates.
+
+The usage is:
+```shell
+  python3 MapParser.py
+```
+
 ## Efficiency
 * About 1.8s to process about 3000000 data entries on a Linux distro.
-
 * About 13s to process about 20000000 data entries on a Linux distro.
+
+## Notices:
+* Linux distro is needed.(untested on Windows or WSL)
+* Open source data can be fetched on Capital Bikeshare's website.
