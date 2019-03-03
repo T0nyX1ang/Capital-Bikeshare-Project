@@ -1,23 +1,35 @@
 # Capital-Bikeshare-Project
 This is a repository for our university training project.
 
-To create the summary using datasets, you need to change something in the program, and run this:
-```
-g++ csv_reader.cpp -o csv_reader
-./csv_reader
-```
+Here are the main features we offer.
 
-You will need GNUplot(greater than version 5.00) to plot the figures. The syntax is:
-```
-gnuplot --persist timeplot.plt
-gnuplot --persist dateplot.plt
-```
+## entry-counter
+Simply counts data entries in a file. Deprecated soon.
+
+## season-fitting
+Fitting total entries based on season. You need to have MatLab to use it.
 
 ## CSV-reader
 A simple reader for CSV-format data. In this project, a time praser is implemented to convert common time format(MM/DD/YYYY HH:MM) to computer recognizable format(365 days, 1440 minutes array). Then a summary dataset is created.
 
+The usage is:
+```shell
+  g++ csv-reader.cpp -o csv-reader
+  (chmod +x csv-reader)
+  ./csv-reader
+```
+It will generate all 'GNUplot' files needed.
+
 ## Plot
-Data visualization module to show the data more friendly.
+Data visualization module to show the data more friendly. We make it automatically by a bash shell.
+```shell
+  chmod +x plotting.sh
+  ./plotting.sh
+```
+
+It will generate PNG files.
 
 ## Efficiency
-About 1.8s to process about 3000000 data entries on a Linux distro.
+* About 1.8s to process about 3000000 data entries on a Linux distro.
+
+* About 13s to process about 20000000 data entries on a Linux distro.
