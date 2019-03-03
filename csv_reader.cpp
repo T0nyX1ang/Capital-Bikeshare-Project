@@ -110,8 +110,8 @@ void plot_utils(int year)
 	// create gnuplot needed files
 	string yearstr = to_string(year);
 	ofstream time_plot("./timedata/timedata-" + yearstr + ".plt");
-	time_plot<<"set terminal pdf"<<endl<<
-			   "set output \"./timedata/timedata-" + yearstr + ".png\""<<endl<<
+	time_plot<<"set terminal png"<<endl<<
+			   "set output \"timedata-" + yearstr + ".png\""<<endl<<
 			   "set style data histogram"<<endl<<
 			   "set style histogram clustered gap 0.05"<<endl<<
 			   "set style fill solid 0.9 border"<<endl<<
@@ -119,19 +119,19 @@ void plot_utils(int year)
 			   "set xrange [0: 1440]"<<endl<<
 			   "set xlabel \"Time\""<<endl<<
 			   "set ylabel \"Count\""<<endl<<
-			   "plot \"./timedata/timedata-" + yearstr + ".dat\" using 2 title \"\"";
+			   "plot \"timedata-" + yearstr + ".dat\" using 2 title \"\"";
 	time_plot.close();
 	ofstream date_plot("./datedata/datedata-" + yearstr + ".plt");
-	date_plot<<"set terminal pdf"<<endl<<
-			   "set output \"./datedata/datedata-" + yearstr + ".png\""<<endl<<
+	date_plot<<"set terminal png"<<endl<<
+			   "set output \"datedata-" + yearstr + ".png\""<<endl<<
 			   "set style data histogram"<<endl<<
 			   "set style histogram clustered gap 0.05"<<endl<<
 			   "set style fill solid 0.9 border"<<endl<<
 		       "set title \"Date count in " + yearstr + "\""<<endl<<
-			   "set xrange [0: 1440]"<<endl<<
+			   "set xrange [-5: 370]"<<endl<<
 			   "set xlabel \"Date\""<<endl<<
 			   "set ylabel \"Count\""<<endl<<
-			   "plot \"./datedata/datedata-" + yearstr + ".dat\" using 2 title \"\"";
+			   "plot \"datedata-" + yearstr + ".dat\" using 2 title \"\"";
 	date_plot.close();
 }
 
@@ -171,7 +171,7 @@ int main()
 		{ 	
 			"2015-Q1-Trips-History-Data.csv", 
 		  	"2015-Q2-Trips-History-Data.csv", 
-		  	"2015-Q3-Trips-History-Data.csv",  
+		  	"2015-Q3-cabi-trip-history-data.csv",  
 		  	"2015-Q4-Trips-History-Data.csv"
 		},
 		{ 
