@@ -71,13 +71,13 @@ bool validate_date(int month, int date)
 void data(int year) 
 {
 	string yearstr = to_string(year);
-	ofstream time_file("timedata-" + yearstr + ".dat");
+	ofstream time_file("./timedata/timedata-" + yearstr + ".dat");
 	time_file<<"time count"<<endl;
 	for (int i = 0; i < 1440; i++)
 		time_file<<i<<" "<<time_data[year - 2010].countable_time[i]<<endl;
 	time_file.close();
 
-	ofstream date_file("datedata-" + yearstr + ".dat");
+	ofstream date_file("./datedata/datedata-" + yearstr + ".dat");
 	int datecount = 1;
 	date_file<<"date count"<<endl;
 	for (int i = 0; i < 12; i++)
@@ -105,8 +105,40 @@ void format(string &s)
 	}
 }
 
+void plot_utils(int year)
+{
+	// create gnuplot needed files
+	string yearstr = to_string(year);
+	ofstream time_plot("./timedata/timedata-" + yearstr + ".plt");
+	time_plot<<"set terminal pdf"<<endl<<
+			   "set output \"./timedata/timedata-" + yearstr + ".png\""<<endl<<
+			   "set style data histogram"<<endl<<
+			   "set style histogram clustered gap 0.05"<<endl<<
+			   "set style fill solid 0.9 border"<<endl<<
+		       "set title \"Time count in " + yearstr + "\""<<endl<<
+			   "set xrange [0: 1440]"<<endl<<
+			   "set xlabel \"Time\""<<endl<<
+			   "set ylabel \"Count\""<<endl<<
+			   "plot \"./timedata/timedata-" + yearstr + ".dat\" using 2 title \"\"";
+	time_plot.close();
+	ofstream date_plot("./datedata/datedata-" + yearstr + ".plt");
+	date_plot<<"set terminal pdf"<<endl<<
+			   "set output \"./datedata/datedata-" + yearstr + ".png\""<<endl<<
+			   "set style data histogram"<<endl<<
+			   "set style histogram clustered gap 0.05"<<endl<<
+			   "set style fill solid 0.9 border"<<endl<<
+		       "set title \"Date count in " + yearstr + "\""<<endl<<
+			   "set xrange [0: 1440]"<<endl<<
+			   "set xlabel \"Date\""<<endl<<
+			   "set ylabel \"Count\""<<endl<<
+			   "plot \"./datedata/datedata-" + yearstr + ".dat\" using 2 title \"\"";
+	date_plot.close();
+}
+
 int main()
 {
+	system("mkdir datedata");
+	system("mkdir timedata");
 	string filename[8][5] = 
 	{
 		{
@@ -176,14 +208,14 @@ int main()
 					string split = line.substr(start, stop - start);
 					// format split string
 					format(split);
-					cout<<split<<endl;
+					// cout<<split<<endl;
 					tokenize_time(split, i);
 					count++;
 				}				
 			}
 		}
 		data(i + 2010);	
+		plot_utils(i + 2010);
 	}
-
 	return 0;
 }
