@@ -137,8 +137,6 @@ void plot_utils(int year)
 
 int main()
 {
-	system("mkdir datedata");
-	system("mkdir timedata");
 	string filename[8][5] = 
 	{
 		{
