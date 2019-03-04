@@ -19,7 +19,7 @@ def crawler(year, month):
 		'Connection': 'keep-alive',
 		'Origin': 'https://www.wunderground/com',
 		'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36',
-		'Referer': 'httsp://www.wunderground.com/history/month/us/dc/washington/KDCA/date/' + str(year) + '-' + str(month),
+		'Referer': 'https://www.wunderground.com/history/month/us/dc/washington/KDCA/date/' + str(year) + '-' + str(month),
 		'Accept': 'application/json, text/plain, */*',
 		'Accept-Encoding': 'gzip, deflate, br',
 	}
