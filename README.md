@@ -27,6 +27,15 @@ Data visualization module to show the data more friendly. We make it automatical
   ./plotting.sh
 ```
 
+## WeatherCrawler
+### Basic Version:
+* Only generate data from 2014-2017, from a [Chinese weather provider](http://www.tianqihoubao.com/guoji/3195/)
+* Data format are not very well.
+
+### Pro Version:
+* Well formated data by [Wunderground](https://www.wunderground.com/history/month/us/dc/washington/KDCA)
+* Richer dataset, boarder classfication.
+
 It will generate PNG files.
 
 ## MapParser
