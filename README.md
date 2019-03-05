@@ -18,7 +18,7 @@ The usage is:
   (chmod +x csv-reader)
   ./csv-reader
 ```
-It will generate all 'GNUplot' files needed.
+It will generate all 'Gnuplot' files needed.
 
 ## Plot
 Data visualization module to show the data more friendly. We make it automatically by a bash shell.
@@ -29,11 +29,11 @@ Data visualization module to show the data more friendly. We make it automatical
 
 ## WeatherCrawler
 ### Basic Version:
-* Only generate data from 2014-2017, from a [Chinese weather provider](http://www.tianqihoubao.com/guoji/3195/)
+* Only generate data from 2014-2017, from a [Chinese weather provider](http://www.tianqihoubao.com/guoji/3195/).
 * Data format are not very well.
 
 ### Pro Version:
-* Well formated data by [Wunderground](https://www.wunderground.com/history/month/us/dc/washington/KDCA)
+* Well formated data by [Wunderground](https://www.wunderground.com/history/month/us/dc/washington/KDCA).
 * Richer dataset, boarder classfication.
 
 It will generate PNG files.
@@ -51,5 +51,5 @@ The usage is:
 * About 13s to process about 20000000 data entries on a Linux distro.
 
 ## Notices:
-* Linux distro is needed.(untested on Windows or WSL)
+* Linux is needed.(untested on Windows or WSL)
 * Open source data can be fetched on Capital Bikeshare's website.
