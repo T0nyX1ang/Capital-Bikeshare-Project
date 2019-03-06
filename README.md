@@ -3,10 +3,14 @@ This is a repository for our university training project.
 
 Here are the main features we offer.
 
-## entry-counter
+## Basics:
+### create_directory
+Create directories needed.
+
+### entry-counter
 Simply counts data entries in a file. Deprecated soon.
 
-## season-fitting
+### season-fitting
 Fitting total entries based on season. You need to have MatLab to use it.
 
 ## CSV-reader
@@ -20,14 +24,14 @@ The usage is:
 ```
 It will generate all 'Gnuplot' files needed.
 
-## Plot
+## Generic Plot
 Data visualization module to show the data more friendly. We make it automatically by a bash shell.
 ```shell
   chmod +x plotting.sh
   ./plotting.sh
 ```
 
-## WeatherCrawler
+## Weather Crawler
 ### Basic Version:
 * Only generate data from 2014-2017, from a [Chinese weather provider](http://www.tianqihoubao.com/guoji/3195/).
 * Data format are not very well.
@@ -38,13 +42,26 @@ Data visualization module to show the data more friendly. We make it automatical
 
 It will generate PNG files.
 
-## MapParser
+## Map Parser
 Creating a mapping between dock no. and geographical coordinates.
 
 The usage is:
 ```shell
   python3 MapParser.py
 ```
+
+## Weather Regression Tool
+### Stepwise regression yearly:
+Doing stepwise regression from 2011-2016's weather data. Possible data modifications are:
+* Linear process
+* Quadartic process
+* Cubic process
+* Exponential process
+* Logarithm process
+* Fractional process
+
+### Full regression:
+Select nesserary data in stepwise process. Combine all the data together and verify the model using 2017's data.
 
 ## Efficiency
 * About 1.8s to process about 3000000 data entries on a Linux distro.
