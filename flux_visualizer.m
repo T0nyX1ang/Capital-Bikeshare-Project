@@ -1,12 +1,19 @@
-function overflux = flux_visualizer(year, month, day)
+function overflux = flux_visualizer(year, month, day, compiling, plotting)
+    if (nargin == 3)
+        compiling = true;
+        plotting = true;
+    end
+    
     % csv generation setting
-    compile = system("g++ ./data_slicer.cpp -o ./data_slicer");
-    if (compile ~= 0)
-        error("C++ compilation failed.");
-    else
-        run = system("./data_slicer " + int2str(year) + " " + int2str(month) + " " + int2str(day));
-        if (run ~= 0)
-            error("CSV data generation failed.");
+    if (compiling)
+        compile = system("g++ ./data_slicer.cpp -o ./data_slicer");
+        if (compile ~= 0)
+            error("C++ compilation failed.");
+        else
+            run = system("./data_slicer " + int2str(year) + " " + int2str(month) + " " + int2str(day));
+            if (run ~= 0)
+                error("CSV data generation failed.");
+            end
         end
     end
     
@@ -87,12 +94,15 @@ function overflux = flux_visualizer(year, month, day)
                 end
             end
         end
-        imagesc([xmin xmax], [ymin ymax], flux, clim);
-        colorbar;
-        axis('square');
-        xlabel('X Coordinates');
-        ylabel('Y Coordinates');
-        title("Time: " + int2str(floor(i / 60)) + ":" + int2str(mod(i, 60)));
-        drawnow;
+        if (plotting)
+            imagesc([xmin xmax], [ymin ymax], flux, clim);
+            colorbar;
+            colormap([1: -0.01: 0; 1: -0.01: 0; 1: -0.01: 0]');
+            axis('square');
+            xlabel('X Coordinates');
+            ylabel('Y Coordinates');
+            title("Time: " + int2str(floor(i / 60)) + ":" + int2str(mod(i, 60)));
+            drawnow;
+        end
     end
 end
