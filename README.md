@@ -63,6 +63,22 @@ Doing stepwise regression from 2011-2016's weather data. Possible data modificat
 ### Full regression:
 Select nesserary data in stepwise process. Combine all the data together and verify the model using 2017's data.
 
+## Traffic Flux Visualization
+This tool contains two parts with different programming languages(C++ / Matlab).
+### data_slicer
+To seperate exactly ONE day in the dataset. No need to call it.
+
+### flux_visualization
+Firstly, the code will run system calls to data_slicer:
+```shell
+  g++ ./data_slicer.cpp -o ./data_slicer
+  ./data_slicer [year] [month] [day]
+```
+
+Then, it will read the need files and generate a real-time flux graph.
+
+Finally, it will generate a statistics matrix showing the place with more than 10 bikes on ride per minute.
+
 ## Efficiency
 * About 1.8s to process about 3000000 data entries on a Linux distro.
 * About 13s to process about 20000000 data entries on a Linux distro.
@@ -70,3 +86,7 @@ Select nesserary data in stepwise process. Combine all the data together and ver
 ## Notices:
 * Linux is needed.(untested on Windows or WSL)
 * Open source data can be fetched on Capital Bikeshare's website.
+* Python requirements: BeautifulSoup, requests, (time, csv, json).
+* C++ requirements: g++ version more than 6.0 is recommended.
+* MatLab requirements: Latest version is recommended. "+" overrided for string concatenation is needed.
+* Gnuplot requirements: version more than 5.0 is needed.
